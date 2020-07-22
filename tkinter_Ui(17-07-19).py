@@ -391,10 +391,10 @@ def setExerciseResults(session, result, duration,steps=None):
         conn = sqlite3.connect(json_const['DB_NAME'])
         c = conn.cursor()
         if device=="S":
-            c.execute("SELECT Category,ExerciseName FROM S_ExerciseMaster WHERE ID= '" + str(ExerciseName) + "' LIMIT 1")
+            c.execute("SELECT Category,ExerciseName FROM S_ExerciseMain WHERE ID= '" + str(ExerciseName) + "' LIMIT 1")
         else:
             c.execute(
-                "SELECT Category,ExerciseName FROM R_ExerciseMaster WHERE ID= '" + str(ExerciseName) + "' LIMIT 1")
+                "SELECT Category,ExerciseName FROM R_ExerciseMain WHERE ID= '" + str(ExerciseName) + "' LIMIT 1")
         for row in c.fetchall():
             exerciseType = row[0]
             exercisename = row[1]
@@ -449,8 +449,8 @@ create_soujhe_logs ()
 
 # +++++++++++++++++++++HoverButton +++++++++++++++++++
 class HoverButton(tk.Button):
-    def __init__(self, master, **kw):
-        tk.Button.__init__(self, master=master, **kw)
+    def __init__(self, main, **kw):
+        tk.Button.__init__(self, main=main, **kw)
         self.defaultBackground = self["background"]
 c
         self.bind("<Enter>", self.on_enter)
@@ -467,12 +467,12 @@ c
 # +++++++++++++++++Custom Dialog box changes++++++++++++++++++++++
 class dialoguebox:
 
-    def __init__(self, master,
+    def __init__(self, main,
                  text='', buttons=[], default=None, cancel=None,title=None, class_=None,icon=None):
         if class_:
-            self.root = Toplevel(master, class_=class_)
+            self.root = Toplevel(main, class_=class_)
         else:
-            self.root = Toplevel(master)
+            self.root = Toplevel(main)
         if title:
             self.root.title(title)
             self.root.iconname(title)
@@ -497,34 +497,34 @@ class dialoguebox:
                 b.place(x=270,y=10)
 
         self.root.protocol('WM_DELETE_WINDOW', self.wm_delete_window)
-        self._set_transient(master,icon)
+        self._set_transient(main,icon)
 
-    def _set_transient(self, master,icon, relx=0.45, rely=0.4):
+    def _set_transient(self, main,icon, relx=0.45, rely=0.4):
         widget = self.root
         widget.withdraw() # Remain invisible while we figure out the geometry
-        widget.transient(master)
+        widget.transient(main)
         widget.update_idletasks()
         # Actualize geometry information
         widget.geometry('400x200')
-        if master.winfo_ismapped():
-            m_width = master.winfo_width()
-            m_height = master.winfo_height()
-            m_x = master.winfo_rootx()
-            m_y = master.winfo_rooty()
+        if main.winfo_ismapped():
+            m_width = main.winfo_width()
+            m_height = main.winfo_height()
+            m_x = main.winfo_rootx()
+            m_y = main.winfo_rooty()
         else:
-            m_width = master.winfo_screenwidth()
-            m_height = master.winfo_screenheight()
+            m_width = main.winfo_screenwidth()
+            m_height = main.winfo_screenheight()
             m_x = m_y = 0
         w_width = widget.winfo_reqwidth()
         w_height = widget.winfo_reqheight()
         x = m_x + (m_width - w_width) * relx
         y = m_y + (m_height - w_height) * rely
-        if x+w_width > master.winfo_screenwidth():
-            x = master.winfo_screenwidth() - w_width
+        if x+w_width > main.winfo_screenwidth():
+            x = main.winfo_screenwidth() - w_width
         elif x < 0:
             x = 0
-        if y+w_height > master.winfo_screenheight():
-            y = master.winfo_screenheight() - w_height
+        if y+w_height > main.winfo_screenheight():
+            y = main.winfo_screenheight() - w_height
         elif y < 0:
             y = 0
 
@@ -675,9 +675,9 @@ def receive():
                             sensor_data.append(rawdata[0])  # tilt Y value is second from the end of the db columns
                     exname = ''
                     if device=="S":
-                        c.execute("SELECT Category,ExerciseName FROM S_ExerciseMaster WHERE ID= '" + str(exerciseName) + "'")
+                        c.execute("SELECT Category,ExerciseName FROM S_ExerciseMain WHERE ID= '" + str(exerciseName) + "'")
                     else:
-                        c.execute("SELECT Category,ExerciseName FROM R_ExerciseMaster WHERE ID= '" + str(exerciseName) + "'")
+                        c.execute("SELECT Category,ExerciseName FROM R_ExerciseMain WHERE ID= '" + str(exerciseName) + "'")
 
                     for row in c.fetchall():
                         extype = row[0]
@@ -993,9 +993,9 @@ def excercisetype(type1,val=None,ret=None):
         conn = sqlite3.connect(json_const['DB_NAME'])
         c = conn.cursor()
         if device == "S":
-            c.execute("SELECT ExerciseName FROM S_ExerciseMaster WHERE Category= "+"'"+str(type1)+"'")
+            c.execute("SELECT ExerciseName FROM S_ExerciseMain WHERE Category= "+"'"+str(type1)+"'")
         else:
-            c.execute("SELECT ExerciseName FROM R_ExerciseMaster WHERE Category="+"'"+str(type1)+"'")
+            c.execute("SELECT ExerciseName FROM R_ExerciseMain WHERE Category="+"'"+str(type1)+"'")
         result = []
         for row in c.fetchall():
             result.append(row[0])
@@ -1314,9 +1314,9 @@ def excercisetype(type1,val=None,ret=None):
             conn = sqlite3.connect(json_const['DB_NAME'])
             c = conn.cursor()
             if device=="S":
-                c.execute("select * from S_ExerciseMaster where Category='" + str(type1) + "'")
+                c.execute("select * from S_ExerciseMain where Category='" + str(type1) + "'")
             else:
-                c.execute("select * from R_ExerciseMaster where Category='" + str(type1) + "'")
+                c.execute("select * from R_ExerciseMain where Category='" + str(type1) + "'")
             for row in c.fetchall():
                 cid.append(row[0])
 
@@ -1348,9 +1348,9 @@ def excercisetype(type1,val=None,ret=None):
                     esid=str(patient_result[0][4])
 
                     if device=="S":
-                        c.execute("SELECT Category,ExerciseName FROM S_ExerciseMaster WHERE ID= '" + pid + "' LIMIT 1")
+                        c.execute("SELECT Category,ExerciseName FROM S_ExerciseMain WHERE ID= '" + pid + "' LIMIT 1")
                     else:
-                        c.execute("SELECT Category,ExerciseName FROM R_ExerciseMaster WHERE ID= '" + pid + "' LIMIT 1")
+                        c.execute("SELECT Category,ExerciseName FROM R_ExerciseMain WHERE ID= '" + pid + "' LIMIT 1")
 
                     for row in c.fetchall():
                         #exerciseType = row[0]
@@ -1856,9 +1856,9 @@ def getSelectedOption(type1,flager=None):
                                             conn = sqlite3.connect(json_const['DB_NAME'])
                                             c = conn.cursor()
                                             if device == "S":
-                                                c.execute( "SELECT ID FROM S_ExerciseMaster WHERE Category= '" + SocketExerciseType + "' AND ExerciseName= '" + SocketExerciseName + "'")
+                                                c.execute( "SELECT ID FROM S_ExerciseMain WHERE Category= '" + SocketExerciseType + "' AND ExerciseName= '" + SocketExerciseName + "'")
                                             else:
-                                                c.execute( "SELECT ID FROM R_ExerciseMaster WHERE Category= '" + SocketExerciseType + "' AND ExerciseName= '" + SocketExerciseName + "'")
+                                                c.execute( "SELECT ID FROM R_ExerciseMain WHERE Category= '" + SocketExerciseType + "' AND ExerciseName= '" + SocketExerciseName + "'")
 
                                             for row in c.fetchall():
                                                 exerciseType = row[0]
@@ -2018,7 +2018,7 @@ def getSelectedOption(type1,flager=None):
                             json_const = json.load(i)
                         conn = sqlite3.connect(json_const['DB_NAME'])
                         c = conn.cursor()
-                        c.execute( "SELECT ID FROM R_ExerciseMaster WHERE Category= '" + SocketExerciseType + "' AND ExerciseName= '" + SocketExerciseName + "'")
+                        c.execute( "SELECT ID FROM R_ExerciseMain WHERE Category= '" + SocketExerciseType + "' AND ExerciseName= '" + SocketExerciseName + "'")
 
                         for row in c.fetchall():
                             exerciseType = row[0]
@@ -2104,9 +2104,9 @@ def game_change(e):
     conn = sqlite3.connect(json_const['DB_NAME'])
     c = conn.cursor()
     if device=="S":
-        c.execute("SELECT ID FROM S_ExerciseMaster WHERE Category= '" + str(t) + "'AND ExerciseName='" + str(e) + "' ")
+        c.execute("SELECT ID FROM S_ExerciseMain WHERE Category= '" + str(t) + "'AND ExerciseName='" + str(e) + "' ")
     else:
-        c.execute("SELECT ID FROM R_ExerciseMaster WHERE Category= '" + str(t) + "'AND ExerciseName='" + str(e) + "' ")
+        c.execute("SELECT ID FROM R_ExerciseMain WHERE Category= '" + str(t) + "'AND ExerciseName='" + str(e) + "' ")
 
     for row in c.fetchall():
         ex_id = str(row[0])
@@ -2315,10 +2315,10 @@ def KeyChange(event,data=None):
             for data in exercises_data:
                 if device == "S":
                     c.execute(
-                        "SELECT Category,ExerciseName FROM S_ExerciseMaster WHERE ID= '" + str(data) + "' LIMIT 1")
+                        "SELECT Category,ExerciseName FROM S_ExerciseMain WHERE ID= '" + str(data) + "' LIMIT 1")
                 else:
                     c.execute(
-                        "SELECT Category,ExerciseName FROM R_ExerciseMaster WHERE ID= '" + str(data) + "' LIMIT 1")
+                        "SELECT Category,ExerciseName FROM R_ExerciseMain WHERE ID= '" + str(data) + "' LIMIT 1")
                 for row in c.fetchall():
                     type = row[0]
                     name = row[1]
@@ -2482,11 +2482,11 @@ def processGraph(p,reporttype=None):
                 conn = sqlite3.connect(json_const['DB_NAME'])
                 c = conn.cursor()
                 if device=="S":
-                    c.execute("SELECT ID FROM S_ExerciseMaster WHERE Category= '" + str(extype) + "' AND ExerciseName='" + str(
+                    c.execute("SELECT ID FROM S_ExerciseMain WHERE Category= '" + str(extype) + "' AND ExerciseName='" + str(
                     exname) + "' LIMIT 1")
                 else:
                     c.execute(
-                        "SELECT ID FROM R_ExerciseMaster WHERE Category= '" + str(extype) + "' AND ExerciseName='" + str(
+                        "SELECT ID FROM R_ExerciseMain WHERE Category= '" + str(extype) + "' AND ExerciseName='" + str(
                             exname) + "' LIMIT 1")
                 for row in c.fetchall():
                     id = row[0]
@@ -2692,7 +2692,7 @@ def processGraph(p,reporttype=None):
                                 exname) + " (" + str(ename) + ")", y=1, fontsize=12)
                     from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-                    canvas = FigureCanvasTkAgg(fig, master=reportGameGraph.graph)
+                    canvas = FigureCanvasTkAgg(fig, main=reportGameGraph.graph)
 
                     canvas.draw()
                     if p==1:
@@ -2833,11 +2833,11 @@ def tableGraph(exerciseval=None):
             c = conn.cursor()
             if device == "S":
                 c.execute(
-                    "SELECT ID FROM S_ExerciseMaster WHERE Category= '" + str(extype) + "' AND ExerciseName='" + str(
+                    "SELECT ID FROM S_ExerciseMain WHERE Category= '" + str(extype) + "' AND ExerciseName='" + str(
                         exname) + "' LIMIT 1")
             else:
                 c.execute(
-                    "SELECT ID FROM R_ExerciseMaster WHERE Category= '" + str(extype) + "' AND ExerciseName='" + str(
+                    "SELECT ID FROM R_ExerciseMain WHERE Category= '" + str(extype) + "' AND ExerciseName='" + str(
                         exname) + "' LIMIT 1")
             for row in c.fetchall():
                 id = row[0]
@@ -3504,7 +3504,7 @@ def registration():
 
 def clear_lab():
 
-    lister = root.grid_slaves()
+    lister = root.grid_subordinates()
     for l in lister:
         l.destroy()
 

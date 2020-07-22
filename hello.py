@@ -2,7 +2,7 @@
 # # # #
 # # # # def questions():
 # # # #
-# # # #     global canvas6,login,canvas4,canvas8,doctor_image,master,back_button
+# # # #     global canvas6,login,canvas4,canvas8,doctor_image,main,back_button
 # # # #     if canvas5 is not None:
 # # # #         canvas5.config(height=0, width=0)
 # # # #         canvas5.delete("all")
@@ -25,8 +25,8 @@
 # # # #                      highlightthickness=5)
 # # # #     canvas1.place(x=0, y=0)
 # # # #     canvas1.create_text(root.winfo_screenwidth() / 2, 15, fill="black", font="Times 12 italic bold", text=" Medical Request Details")
-# # # #     # master = Canvas(root, bg="black", width=500, height=200, bd=0, relief='ridge')
-# # # #     # master.place(x=350, y=200)
+# # # #     # main = Canvas(root, bg="black", width=500, height=200, bd=0, relief='ridge')
+# # # #     # main.place(x=350, y=200)
 # # # #     # Create a frame for the canvas and scrollbar(s).
 # # # #     frame2 = tk.Frame(canvas7)
 # # # #     frame2.grid(row=3, column=1, sticky=tk.NW)
@@ -71,19 +71,19 @@
 # # # #     # label3 = tk.Label(root, text="Frame3 Contents", bg=LABEL_BG)
 # # # #     # label3.grid(row=4, column=0, pady=5, sticky=tk.NW)
 # # # #     #
-# # # #     # frame3 = tk.Frame(master, bg="Blue", bd=2, relief=tk.GROOVE)
+# # # #     # frame3 = tk.Frame(main, bg="Blue", bd=2, relief=tk.GROOVE)
 # # # #     # frame3.grid(row=5, column=0, sticky=tk.NW)
 # # # #
-# # # # def getQuestions(master):
+# # # # def getQuestions(main):
 # # # #     catQuestion = [i.questionaries for i in allQuestions if i.cat_name == symptomVariable.get()]
 # # # #     i = 10
 # # # #     if len(catQuestion[0]) > 0:
 # # # #         for ques in catQuestion[0]:
 # # # #             # for ques in quest:
-# # # #             Label(master, font="Times 13", text=ques.name, bg="white", fg="blue", width=50).place(x=100, y=i)
+# # # #             Label(main, font="Times 13", text=ques.name, bg="white", fg="blue", width=50).place(x=100, y=i)
 # # # #             if ques.qus_type == 1:
 # # # #                 var = StringVar()
-# # # #                 Entry(master, textvariable=var, bd=3, width=11, font=font_size).place(x=500, y=i)
+# # # #                 Entry(main, textvariable=var, bd=3, width=11, font=font_size).place(x=500, y=i)
 # # # #
 # # # #                 entries[str(ques.q_id) + "-" + str(ques.name) + "-" + str(ques.ques_answers[0].ans_id) + "-" + str(
 # # # #                     ques.qus_type)] = var
@@ -92,7 +92,7 @@
 # # # #                 varRad = StringVar()
 # # # #                 varRad.set(0)
 # # # #                 for radPick in ques.ques_answers:
-# # # #                     Radiobutton(master, text=radPick.name, variable=varRad, value=radPick.ans_id).place(x=a, y=i)
+# # # #                     Radiobutton(main, text=radPick.name, variable=varRad, value=radPick.ans_id).place(x=a, y=i)
 # # # #                     a = a + 100
 # # # #                     entries[str(ques.q_id) + "-" + str(ques.name) + "-" + str(radPick.name) + "-" + str(
 # # # #                         ques.qus_type)] = varRad
@@ -162,7 +162,7 @@
 # # # mainloop()
 # #
 # # from tkinter import *
-# # master = Tk()
+# # main = Tk()
 # # import database_Server as db
 #
 # # def getQuestions(canvas7):
@@ -199,24 +199,24 @@
 # #         # Text(canvas7, bd=3, width=11,height=2, font=font_size).place(x=500, y=i)
 # #     # canvas7.config(yscrollcommand=scrollbar.set)
 # #     # scrollbar.config(command=canvas7.yview)
-# # canvas = Canvas(master)
+# # canvas = Canvas(main)
 # # canvas.grid(row=0,column=0)
-# # hbar = Scrollbar(master, orient=HORIZONTAL)
+# # hbar = Scrollbar(main, orient=HORIZONTAL)
 # # hbar.config(command=canvas.xview)
 # # hbar.grid(row=1, column=0, sticky=E+W)
-# # vbar = Scrollbar(master, orient=VERTICAL)
+# # vbar = Scrollbar(main, orient=VERTICAL)
 # # vbar.config(command=canvas.yview)
 # # vbar.grid(row=0,column=1,sticky=N+S)
 # # Label(canvas,"duihgughdug").grid(row=5,column=2)
 # # canvas.config(xscrollcommand=hbar.set, yscrollcommand=vbar.set,scrollregion=(0, 0, 1000, 1000))
 # # # getQuestions(canvas)
-# # master.mainloop()
+# # main.mainloop()
 #
 # # from tkinter import *
-# # master = Tk()
+# # main = Tk()
 # # # import database_Server as db
 # #
-# # w = Canvas(master, width=50, height=200,
+# # w = Canvas(main, width=50, height=200,
 # #            borderwidth=0,
 # #            highlightthickness=0,
 # #            background='white'
@@ -224,11 +224,11 @@
 # # w.place(x=100,y=100)
 # # label_msg = Label(w, font="Times 13", text="bugyguguhhbighuyg", bg="blue",  width=50)
 # # label_msg.place(x=20, y=5)
-# # hbar=Scrollbar(master,orient=HORIZONTAL)
+# # hbar=Scrollbar(main,orient=HORIZONTAL)
 # # hbar.pack(side=BOTTOM,fill=X)
 # # hbar.config(command=w.xview)
 # # w.config(xscrollcommand=hbar.set,scrollregion=(0, 0, 1000, 1000))
-# # master.mainloop()
+# # main.mainloop()
 #
 # from tkinter import *
 #

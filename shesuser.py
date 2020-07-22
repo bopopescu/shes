@@ -42,7 +42,7 @@ numberChoosen=None
 key=None
 numberChoosen1=None
 entry1=None;entry2=None;entry3=None;entry4=None;entry5=None;entry_config=None;license_entry=None;disorder_entry=None;report_entry=None
-canvas1=None;canvas2=None;canvas3=None;canvas4=None;canvas5=None; canvas6=None;canvas=None; master=None; canvas7=None; canvas8=None; canvas_img=None
+canvas1=None;canvas2=None;canvas3=None;canvas4=None;canvas5=None; canvas6=None;canvas=None; main=None; canvas7=None; canvas8=None; canvas_img=None
 vsb=None;hsb=None
 login=0
 font_size = ('Verdana', 15)
@@ -164,12 +164,12 @@ def backpage():
 # +++++++++++++++++Custom Dialog box changes++++++++++++++++++++++
 class dialoguebox:
 
-    def __init__(self, master,
+    def __init__(self, main,
                  text='', buttons=[], default=None, cancel=None,title=None, class_=None,icon=None):
         if class_:
-            self.root = Toplevel(master, class_=class_)
+            self.root = Toplevel(main, class_=class_)
         else:
-            self.root = Toplevel(master)
+            self.root = Toplevel(main)
         if title:
             self.root.title(title)
             self.root.iconname(title)
@@ -194,34 +194,34 @@ class dialoguebox:
                 b.place(x=270,y=10)
 
         self.root.protocol('WM_DELETE_WINDOW', self.wm_delete_window)
-        self._set_transient(master,icon)
+        self._set_transient(main,icon)
 
-    def _set_transient(self, master,icon, relx=0.45, rely=0.4):
+    def _set_transient(self, main,icon, relx=0.45, rely=0.4):
         widget = self.root
         widget.withdraw() # Remain invisible while we figure out the geometry
-        widget.transient(master)
+        widget.transient(main)
         widget.update_idletasks()
         # Actualize geometry information
         widget.geometry('400x200')
-        if master.winfo_ismapped():
-            m_width = master.winfo_width()
-            m_height = master.winfo_height()
-            m_x = master.winfo_rootx()
-            m_y = master.winfo_rooty()
+        if main.winfo_ismapped():
+            m_width = main.winfo_width()
+            m_height = main.winfo_height()
+            m_x = main.winfo_rootx()
+            m_y = main.winfo_rooty()
         else:
-            m_width = master.winfo_screenwidth()
-            m_height = master.winfo_screenheight()
+            m_width = main.winfo_screenwidth()
+            m_height = main.winfo_screenheight()
             m_x = m_y = 0
         w_width = widget.winfo_reqwidth()
         w_height = widget.winfo_reqheight()
         x = m_x + (m_width - w_width) * relx
         y = m_y + (m_height - w_height) * rely
-        if x+w_width > master.winfo_screenwidth():
-            x = master.winfo_screenwidth() - w_width
+        if x+w_width > main.winfo_screenwidth():
+            x = main.winfo_screenwidth() - w_width
         elif x < 0:
             x = 0
-        if y+w_height > master.winfo_screenheight():
-            y = master.winfo_screenheight() - w_height
+        if y+w_height > main.winfo_screenheight():
+            y = main.winfo_screenheight() - w_height
         elif y < 0:
             y = 0
 
@@ -258,8 +258,8 @@ class dialoguebox:
 
 # +++++++++++++++++++++HoverButton +++++++++++++++++++
 class HoverButton(tk.Button):
-    def __init__(self, master, **kw):
-        tk.Button.__init__(self, master=master, **kw)
+    def __init__(self, main, **kw):
+        tk.Button.__init__(self, main=main, **kw)
         self.defaultBackground = self["background"]
 
         self.bind("<Enter>", self.on_enter)
@@ -949,7 +949,7 @@ def profile():
 # setting up the user details to a table
 def seafearsRecords():
 
-    global canvas6,login,canvas4,doctor_image,master,canvas_img
+    global canvas6,login,canvas4,doctor_image,main,canvas_img
     if canvas_img is not None:
         canvas_img.config(height=0, width=0)
         canvas_img.delete("all")
@@ -972,10 +972,10 @@ def seafearsRecords():
                      highlightthickness=5)
     canvas1.place(x=0, y=0)
     canvas1.create_text(root.winfo_screenwidth() / 2, 15, fill="black", font="Times 12 italic bold", text=" SHEFEAR Details")
-    master = Canvas(root, bg="black", width=500, height=200, bd=0, relief='ridge')
-    master.place(x=350, y=200)
+    main = Canvas(root, bg="black", width=500, height=200, bd=0, relief='ridge')
+    main.place(x=350, y=200)
     # Create a frame for the canvas and scrollbar(s).
-    frame2 = tk.Frame(master)
+    frame2 = tk.Frame(main)
     frame2.grid(row=3, column=1, sticky=tk.NW)
            # Add a canvas in that frame.
     canvas = tk.Canvas(frame2)
@@ -1018,7 +1018,7 @@ def seafearsRecords():
     # label3 = tk.Label(root, text="Frame3 Contents", bg=LABEL_BG)
     # label3.grid(row=4, column=0, pady=5, sticky=tk.NW)
     #
-    # frame3 = tk.Frame(master, bg="Blue", bd=2, relief=tk.GROOVE)
+    # frame3 = tk.Frame(main, bg="Blue", bd=2, relief=tk.GROOVE)
     # frame3.grid(row=5, column=0, sticky=tk.NW)
 
 # table ended
@@ -1053,10 +1053,10 @@ def medicalRequest(seafar_id):
             canvas.config(height=0, width=0)
             canvas.delete("all")
             canvas.destroy()
-        if master is not None:
-            master.config(height=0, width=0)
-            master.delete("all")
-            master.destroy()
+        if main is not None:
+            main.config(height=0, width=0)
+            main.delete("all")
+            main.destroy()
 
         login = 1
         # doctor_img.config(state="disabled", cursor="wait")
@@ -1381,7 +1381,7 @@ def SaveMedicalReq(seafar_id):
 def getQuestions():
     global canvas7
     canvas7 = Canvas(root, bg="black", width=500, height=100, bd=0, relief='ridge')
-    # master.place(x=200, y=200)
+    # main.place(x=200, y=200)
     # Create a frame for the canvas and scrollbar(s).
     frame2 = tk.Frame(canvas7)
     frame2.grid(row=3, column=1, sticky=tk.NW)
@@ -1495,7 +1495,7 @@ def showCanvas(canvasShow, canvasHide,status=None,datashow=None):
 
 def MedicalRequestRecords():
 
-    global canvas6,login,canvas4,canvas8,doctor_image,master,back_button,canvas_img
+    global canvas6,login,canvas4,canvas8,doctor_image,main,back_button,canvas_img
     if canvas_img is not None:
         canvas_img.config(height=0, width=0)
         canvas_img.delete("all")
@@ -1521,10 +1521,10 @@ def MedicalRequestRecords():
                      highlightthickness=5)
     canvas1.place(x=0, y=0)
     canvas1.create_text(root.winfo_screenwidth() / 2, 15, fill="black", font="Times 12 italic bold", text=" Medical Request Details")
-    master = Canvas(root, bg="black", width=500, height=200, bd=0, relief='ridge')
-    master.place(x=200, y=200)
+    main = Canvas(root, bg="black", width=500, height=200, bd=0, relief='ridge')
+    main.place(x=200, y=200)
     # Create a frame for the canvas and scrollbar(s).
-    frame2 = tk.Frame(master)
+    frame2 = tk.Frame(main)
     frame2.grid(row=3, column=1, sticky=tk.NW)
            # Add a canvas in that frame.
     canvas = tk.Canvas(frame2)
@@ -1567,7 +1567,7 @@ def MedicalRequestRecords():
     # label3 = tk.Label(root, text="Frame3 Contents", bg=LABEL_BG)
     # label3.grid(row=4, column=0, pady=5, sticky=tk.NW)
     #
-    # frame3 = tk.Frame(master, bg="Blue", bd=2, relief=tk.GROOVE)
+    # frame3 = tk.Frame(main, bg="Blue", bd=2, relief=tk.GROOVE)
     # frame3.grid(row=5, column=0, sticky=tk.NW)
 
 
@@ -1580,7 +1580,7 @@ def radioSelection(b):
     entries.update(newDict)
     #print(entries)
 
-def showallquestions(master):
+def showallquestions(main):
     global ROWS
     #Txtentries = {}
     entries = {}
@@ -1602,12 +1602,12 @@ def showallquestions(master):
         indexer=1
         for ques in catQuestion[0]:
     #         # for ques in quest:
-            Label(master, font="Times 13", text=ques.name, bg="white", fg="blue", width=70, anchor="w").grid(row=indexer,
+            Label(main, font="Times 13", text=ques.name, bg="white", fg="blue", width=70, anchor="w").grid(row=indexer,
                                                                                               column=1)
             # print(ques.qus_type)
             if ques.qus_type == 1:
                 var = StringVar()
-                Entry(master, textvariable=var, bd=3, width=20, font=font_size).grid(row=indexer,
+                Entry(main, textvariable=var, bd=3, width=20, font=font_size).grid(row=indexer,
                                                                                               column=2)
 
                 Txtentries[str(ques.q_id) + "-" + str(ques.name) + "-" + str(ques.ques_answers[0].ans_id) + "-" + str(
@@ -1621,7 +1621,7 @@ def showallquestions(master):
                 # print(ques.ques_answers)
 
                 for radPick in ques.ques_answers:
-                    Radiobutton(master, text=radPick.name, variable=varRad, value=radPick.ans_id,
+                    Radiobutton(main, text=radPick.name, variable=varRad, value=radPick.ans_id,
                                 command =lambda b=[ques.q_id, ques.name, radPick.name, ques.qus_type,
                                                   radPick.ans_id]: radioSelection(b)
                                 ).grid(row=indexer,column=a)
@@ -1638,14 +1638,14 @@ def showallquestions(master):
     #     # Label(canvas7, font="Times 13", text="Other Information", bg="white", fg="blue", width=50).place(x=100, y=i)
     #     # OtherVariable = StringVar()
     #     # Text(canvas7, bd=3, width=11,height=2, font=font_size).place(x=500, y=i)
-        previous_button7 = HoverButton(master, text="<<Previous", bg="#007ED9", fg="white",
+        previous_button7 = HoverButton(main, text="<<Previous", bg="#007ED9", fg="white",
                                        font=('Helvetica', '15'),
                                        width=15, activebackground='blue', cursor="hand2",
                                        command=lambda: showCanvas(canvas5, canvas7,
                                                                   2)) .grid(row=indexer+2,
                                                                                               column=1) # , command=lambda: saveDetails()
         # previous_button7.place(x=8, y=385)
-        next_button7 = HoverButton(master, text="Next>>", bg="#007ED9", fg="white", font=('Helvetica', '15'),
+        next_button7 = HoverButton(main, text="Next>>", bg="#007ED9", fg="white", font=('Helvetica', '15'),
                                    width=15, activebackground='blue', cursor="hand2",
                                    command=lambda: showCanvas(canvas8, canvas7,
                                                               1)) .grid(row=indexer+2,column=2) # , command=lambda: saveDetails()
@@ -1654,126 +1654,126 @@ def showallquestions(master):
 
 
     #
-    # dateLabel = Label(master, text="S.No", width=10, height=3, relief="ridge", bg="black", fg="white")
+    # dateLabel = Label(main, text="S.No", width=10, height=3, relief="ridge", bg="black", fg="white")
     # dateLabel.grid(row=0, column=0)
-    # dateLabel = Label(master, text="Medical Request ID", width=20, height=3, relief="ridge", bg="black",
+    # dateLabel = Label(main, text="Medical Request ID", width=20, height=3, relief="ridge", bg="black",
     #                   fg="white")
     # dateLabel.grid(row=0, column=1)
-    # # BMILabel = Label(master, text="Nationality", width=40, height=3, relief="ridge", bg="black",
+    # # BMILabel = Label(main, text="Nationality", width=40, height=3, relief="ridge", bg="black",
     # #                  fg="white")
     # # BMILabel.grid(row=0, column=2)
-    # # usernameLabel = Label(master, text="DOB", width=20, height=3, relief="ridge", bg="black",
+    # # usernameLabel = Label(main, text="DOB", width=20, height=3, relief="ridge", bg="black",
     # #                   fg="white")
     # # usernameLabel.grid(row=0, column=3)
-    # stateLabel = Label(master, text="Departure Port", width=20, height=3, relief="ridge", bg="black",
+    # stateLabel = Label(main, text="Departure Port", width=20, height=3, relief="ridge", bg="black",
     #                    fg="white")
     # stateLabel.grid(row=0, column=2)
-    # stateLabel = Label(master, text="Arrival Port", width=20, height=3, relief="ridge", bg="black",
+    # stateLabel = Label(main, text="Arrival Port", width=20, height=3, relief="ridge", bg="black",
     #                    fg="white")
     # stateLabel.grid(row=0, column=3)
-    # # countryLabel = Label(master, text="Rank", width=20, height=3, relief="ridge", bg="black",
+    # # countryLabel = Label(main, text="Rank", width=20, height=3, relief="ridge", bg="black",
     # #                    fg="white")
     # # countryLabel.grid(row=0, column=6)
-    # countryLabel = Label(master, text="Present Position", width=20, height=3, relief="ridge", bg="black",
+    # countryLabel = Label(main, text="Present Position", width=20, height=3, relief="ridge", bg="black",
     #                      fg="white")
     # countryLabel.grid(row=0, column=4)
-    # countryLabel = Label(master, text="Images", width=20, height=3, relief="ridge", bg="black",
+    # countryLabel = Label(main, text="Images", width=20, height=3, relief="ridge", bg="black",
     #                      fg="white")
     # countryLabel.grid(row=0, column=5)
-    # countryLabel = Label(master, text="Replay", width=20, height=3, relief="ridge", bg="black",
+    # countryLabel = Label(main, text="Replay", width=20, height=3, relief="ridge", bg="black",
     #                      fg="white")
     # countryLabel.grid(row=0, column=6)
     # for index, dat in catQuestion:
     #     i = dat[1]
     #     j = dat[2]
-    #     tk.Label(master, text=index + 1, relief="ridge", width=10, bg="white", height=2).grid(row=index + 1,
+    #     tk.Label(main, text=index + 1, relief="ridge", width=10, bg="white", height=2).grid(row=index + 1,
     #                                                                                           column=0)
-    #     tk.Label(master, text=dat[2], relief="ridge", width=20, bg="white", height=2).grid(
+    #     tk.Label(main, text=dat[2], relief="ridge", width=20, bg="white", height=2).grid(
     #         row=index + 1, column=1)
-    #     # tk.Label(master, text=dat[4],relief="ridge",width=40,bg="white",height=2).grid(row=index + 1, column=2)
-    #     # tk.Label(master, text=dat[5],relief="ridge",width=20,bg="white",height=2).grid(row=index + 1, column=3)
-    #     tk.Label(master, text=dat[3], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=2)
-    #     tk.Label(master, text=dat[4], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=3)
-    #     # tk.Label(master, text=dat[8], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=6)
-    #     tk.Label(master, text=dat[6], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=4)
-    #     #tk.Label(master, text=dat[-2], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=5)
+    #     # tk.Label(main, text=dat[4],relief="ridge",width=40,bg="white",height=2).grid(row=index + 1, column=2)
+    #     # tk.Label(main, text=dat[5],relief="ridge",width=20,bg="white",height=2).grid(row=index + 1, column=3)
+    #     tk.Label(main, text=dat[3], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=2)
+    #     tk.Label(main, text=dat[4], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=3)
+    #     # tk.Label(main, text=dat[8], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=6)
+    #     tk.Label(main, text=dat[6], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=4)
+    #     #tk.Label(main, text=dat[-2], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=5)
     #
-    #     MDR_button = Button(master, anchor=W, padx=2, text="View Images", width=20, height=2, relief="ridge",
+    #     MDR_button = Button(main, anchor=W, padx=2, text="View Images", width=20, height=2, relief="ridge",
     #                         bg="white", \
     #                         fg="blue", font=('Times', 10, 'underline'), highlightthickness=0, bd=1,
-    #                         command=lambda j=dat[-1]: medicalReqImages(j,master))
+    #                         command=lambda j=dat[-1]: medicalReqImages(j,main))
     #     MDR_button.grid(row=index + 1, column=5)
     #
-    #     MDR_button = Button(master, anchor=W, padx=2, text="View Doctor Replay", width=20, height=2, relief="ridge",
+    #     MDR_button = Button(main, anchor=W, padx=2, text="View Doctor Replay", width=20, height=2, relief="ridge",
     #                         bg="white", \
     #                         fg="blue", font=('Times', 10, 'underline'), highlightthickness=0, bd=1,
     #                         command=lambda i=[dat[-5],dat[-3],dat[-2]]: medicalReplay(i))
     #     MDR_button.grid(row=index + 1, column=6)
-def showallMedicalrecords(master):
+def showallMedicalrecords(main):
     global ROWS
     ROWS = 5
     data = db.MedicalRecordDetails()
     if len(data) > 8:
         ROWS = 11
-    dateLabel = Label(master, text="S.No", width=10, height=3, relief="ridge", bg="black", fg="white")
+    dateLabel = Label(main, text="S.No", width=10, height=3, relief="ridge", bg="black", fg="white")
     dateLabel.grid(row=0, column=0)
-    dateLabel = Label(master, text="Medical Request ID", width=20, height=3, relief="ridge", bg="black",
+    dateLabel = Label(main, text="Medical Request ID", width=20, height=3, relief="ridge", bg="black",
                       fg="white")
     dateLabel.grid(row=0, column=1)
-    # BMILabel = Label(master, text="Nationality", width=40, height=3, relief="ridge", bg="black",
+    # BMILabel = Label(main, text="Nationality", width=40, height=3, relief="ridge", bg="black",
     #                  fg="white")
     # BMILabel.grid(row=0, column=2)
-    # usernameLabel = Label(master, text="DOB", width=20, height=3, relief="ridge", bg="black",
+    # usernameLabel = Label(main, text="DOB", width=20, height=3, relief="ridge", bg="black",
     #                   fg="white")
     # usernameLabel.grid(row=0, column=3)
-    stateLabel = Label(master, text="Departure Port", width=20, height=3, relief="ridge", bg="black",
+    stateLabel = Label(main, text="Departure Port", width=20, height=3, relief="ridge", bg="black",
                        fg="white")
     stateLabel.grid(row=0, column=2)
-    stateLabel = Label(master, text="Arrival Port", width=20, height=3, relief="ridge", bg="black",
+    stateLabel = Label(main, text="Arrival Port", width=20, height=3, relief="ridge", bg="black",
                        fg="white")
     stateLabel.grid(row=0, column=3)
-    # countryLabel = Label(master, text="Rank", width=20, height=3, relief="ridge", bg="black",
+    # countryLabel = Label(main, text="Rank", width=20, height=3, relief="ridge", bg="black",
     #                    fg="white")
     # countryLabel.grid(row=0, column=6)
-    countryLabel = Label(master, text="Present Position", width=20, height=3, relief="ridge", bg="black",
+    countryLabel = Label(main, text="Present Position", width=20, height=3, relief="ridge", bg="black",
                          fg="white")
     countryLabel.grid(row=0, column=4)
-    countryLabel = Label(master, text="Images", width=20, height=3, relief="ridge", bg="black",
+    countryLabel = Label(main, text="Images", width=20, height=3, relief="ridge", bg="black",
                          fg="white")
     countryLabel.grid(row=0, column=5)
-    countryLabel = Label(master, text="Replay", width=20, height=3, relief="ridge", bg="black",
+    countryLabel = Label(main, text="Replay", width=20, height=3, relief="ridge", bg="black",
                          fg="white")
     countryLabel.grid(row=0, column=6)
-    countryLabel = Label(master, text="More Info", width=20, height=3, relief="ridge", bg="black",
+    countryLabel = Label(main, text="More Info", width=20, height=3, relief="ridge", bg="black",
                          fg="white")
     countryLabel.grid(row=0, column=7)
     for index, dat in enumerate(data):
         i = dat[1]
         j = dat[2]
-        tk.Label(master, text=index + 1, relief="ridge", width=10, bg="white", height=2).grid(row=index + 1,
+        tk.Label(main, text=index + 1, relief="ridge", width=10, bg="white", height=2).grid(row=index + 1,
                                                                                               column=0)
-        tk.Label(master, text=dat[2], relief="ridge", width=20, bg="white", height=2).grid(
+        tk.Label(main, text=dat[2], relief="ridge", width=20, bg="white", height=2).grid(
             row=index + 1, column=1)
-        # tk.Label(master, text=dat[4],relief="ridge",width=40,bg="white",height=2).grid(row=index + 1, column=2)
-        # tk.Label(master, text=dat[5],relief="ridge",width=20,bg="white",height=2).grid(row=index + 1, column=3)
-        tk.Label(master, text=dat[3], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=2)
-        tk.Label(master, text=dat[4], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=3)
-        # tk.Label(master, text=dat[8], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=6)
-        tk.Label(master, text=dat[6], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=4)
-        #tk.Label(master, text=dat[-2], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=5)
+        # tk.Label(main, text=dat[4],relief="ridge",width=40,bg="white",height=2).grid(row=index + 1, column=2)
+        # tk.Label(main, text=dat[5],relief="ridge",width=20,bg="white",height=2).grid(row=index + 1, column=3)
+        tk.Label(main, text=dat[3], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=2)
+        tk.Label(main, text=dat[4], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=3)
+        # tk.Label(main, text=dat[8], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=6)
+        tk.Label(main, text=dat[6], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=4)
+        #tk.Label(main, text=dat[-2], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=5)
 
-        MDR_button = Button(master, anchor=W, padx=2, text="View Images", width=20, height=2, relief="ridge",
+        MDR_button = Button(main, anchor=W, padx=2, text="View Images", width=20, height=2, relief="ridge",
                             bg="white", \
                             fg="blue", font=('Times', 10, 'underline'), highlightthickness=0, bd=1,
-                            command=lambda j=dat[-1]: medicalReqImages(j,master))
+                            command=lambda j=dat[-1]: medicalReqImages(j,main))
         MDR_button.grid(row=index + 1, column=5)
 
-        MDR_button = Button(master, anchor=W, padx=2, text="View Doctor Replay", width=20, height=2, relief="ridge",
+        MDR_button = Button(main, anchor=W, padx=2, text="View Doctor Replay", width=20, height=2, relief="ridge",
                             bg="white", \
                             fg="blue", font=('Times', 10, 'underline'), highlightthickness=0, bd=1,
                             command=lambda i=[dat[-5],dat[-3],dat[-2]]: medicalReplay(i))
         MDR_button.grid(row=index + 1, column=6)
-        MDR_button = Button(master, anchor=W, padx=2, text="View More info", width=20, height=2, relief="ridge",
+        MDR_button = Button(main, anchor=W, padx=2, text="View More info", width=20, height=2, relief="ridge",
                             bg="white", \
                             fg="blue", font=('Times', 10, 'underline'), highlightthickness=0, bd=1,
                             command=lambda i=dat[-1]: moreMDRInfo(i))
@@ -1833,54 +1833,54 @@ def medicalReplay(replayList):
         showinfo('Doctor Replay',replayList[2])
 
 
-def showallrecords(master):
+def showallrecords(main):
     global ROWS
     ROWS = 5
     data = db.readSeaferDetails()
     if len(data)>8:
         ROWS=11
-    dateLabel = Label(master, text="S.No", width=10, height=3, relief="ridge", bg="black", fg="white")
+    dateLabel = Label(main, text="S.No", width=10, height=3, relief="ridge", bg="black", fg="white")
     dateLabel.grid(row=0, column=0)
-    dateLabel = Label(master, text="Name", width=20, height=3, relief="ridge", bg="black",
+    dateLabel = Label(main, text="Name", width=20, height=3, relief="ridge", bg="black",
                       fg="white")
     dateLabel.grid(row=0, column=1)
-    # BMILabel = Label(master, text="Nationality", width=40, height=3, relief="ridge", bg="black",
+    # BMILabel = Label(main, text="Nationality", width=40, height=3, relief="ridge", bg="black",
     #                  fg="white")
     # BMILabel.grid(row=0, column=2)
-    # usernameLabel = Label(master, text="DOB", width=20, height=3, relief="ridge", bg="black",
+    # usernameLabel = Label(main, text="DOB", width=20, height=3, relief="ridge", bg="black",
     #                   fg="white")
     # usernameLabel.grid(row=0, column=3)
-    stateLabel = Label(master, text="age", width=20, height=3, relief="ridge", bg="black",
+    stateLabel = Label(main, text="age", width=20, height=3, relief="ridge", bg="black",
                        fg="white")
     stateLabel.grid(row=0, column=2)
-    stateLabel = Label(master, text="Sex", width=20, height=3, relief="ridge", bg="black",
+    stateLabel = Label(main, text="Sex", width=20, height=3, relief="ridge", bg="black",
                        fg="white")
     stateLabel.grid(row=0, column=3)
-    # countryLabel = Label(master, text="Rank", width=20, height=3, relief="ridge", bg="black",
+    # countryLabel = Label(main, text="Rank", width=20, height=3, relief="ridge", bg="black",
     #                    fg="white")
     # countryLabel.grid(row=0, column=6)
-    countryLabel = Label(master, text="Request", width=20, height=3, relief="ridge", bg="black",
+    countryLabel = Label(main, text="Request", width=20, height=3, relief="ridge", bg="black",
                          fg="white")
     countryLabel.grid(row=0, column=4)
-    countryLabel = Label(master, text="More Info", width=20, height=3, relief="ridge", bg="black",
+    countryLabel = Label(main, text="More Info", width=20, height=3, relief="ridge", bg="black",
                          fg="white")
     countryLabel.grid(row=0, column=5)
     for index, dat in enumerate(data):
             i = dat[1]
             j=dat[2]
-            tk.Label(master, text=index+1,relief="ridge",width=10,bg="white",height=2).grid(row=index + 1, column=0)
-            tk.Label(master, text=dat[2]+" "+dat[3],relief="ridge",width=20,bg="white",height=2).grid(row=index + 1, column=1)
-            # tk.Label(master, text=dat[4],relief="ridge",width=40,bg="white",height=2).grid(row=index + 1, column=2)
-            # tk.Label(master, text=dat[5],relief="ridge",width=20,bg="white",height=2).grid(row=index + 1, column=3)
-            tk.Label(master, text=dat[6],relief="ridge",width=20,bg="white",height=2).grid(row=index + 1, column=2)
-            tk.Label(master, text=dat[7], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=3)
-            # tk.Label(master, text=dat[8], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=6)
-            #tk.Label(master, text=dat[8], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=7)
-            MDR_button = Button(master, anchor=W, padx=2, text="Medical Request", width=20,height=2,relief="ridge", bg="white", \
+            tk.Label(main, text=index+1,relief="ridge",width=10,bg="white",height=2).grid(row=index + 1, column=0)
+            tk.Label(main, text=dat[2]+" "+dat[3],relief="ridge",width=20,bg="white",height=2).grid(row=index + 1, column=1)
+            # tk.Label(main, text=dat[4],relief="ridge",width=40,bg="white",height=2).grid(row=index + 1, column=2)
+            # tk.Label(main, text=dat[5],relief="ridge",width=20,bg="white",height=2).grid(row=index + 1, column=3)
+            tk.Label(main, text=dat[6],relief="ridge",width=20,bg="white",height=2).grid(row=index + 1, column=2)
+            tk.Label(main, text=dat[7], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=3)
+            # tk.Label(main, text=dat[8], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=6)
+            #tk.Label(main, text=dat[8], relief="ridge", width=20, bg="white", height=2).grid(row=index + 1, column=7)
+            MDR_button = Button(main, anchor=W, padx=2, text="Medical Request", width=20,height=2,relief="ridge", bg="white", \
                                     fg="blue", font=('Times', 10, 'underline'), highlightthickness=0, bd=1,
                                  command= lambda i=i: medicalRequest(i))
             MDR_button.grid(row=index + 1, column=4)
-            more_button = Button(master, anchor=W, padx=2, text="More", width=20, height=2, relief="ridge",
+            more_button = Button(main, anchor=W, padx=2, text="More", width=20, height=2, relief="ridge",
                                 bg="white", \
                                 fg="blue", font=('Times', 10, 'underline'), highlightthickness=0, bd=1,
                                 command=lambda i=[dat[4],dat[5],dat[8]]: moreInfo(i))

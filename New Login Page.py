@@ -160,12 +160,12 @@ def checkLogIn() :
         d.go()
 class dialoguebox:
 
-    def __init__(self, master,
+    def __init__(self, main,
                  text='', buttons=[], default=None, cancel=None,title=None, class_=None,icon=None):
         if class_:
-            self.root = Toplevel(master, class_=class_)
+            self.root = Toplevel(main, class_=class_)
         else:
-            self.root = Toplevel(master)
+            self.root = Toplevel(main)
         if title:
             self.root.title(title)
             self.root.iconname(title)
@@ -199,34 +199,34 @@ class dialoguebox:
                 b.place(x=270,y=10)
 
         self.root.protocol('WM_DELETE_WINDOW', self.wm_delete_window)
-        self._set_transient(master,icon)
+        self._set_transient(main,icon)
 
-    def _set_transient(self, master,icon, relx=0.45, rely=0.4):
+    def _set_transient(self, main,icon, relx=0.45, rely=0.4):
         widget = self.root
         widget.withdraw() # Remain invisible while we figure out the geometry
-        widget.transient(master)
+        widget.transient(main)
         widget.update_idletasks()
         # Actualize geometry information
         widget.geometry('400x200')
-        if master.winfo_ismapped():
-            m_width = master.winfo_width()
-            m_height = master.winfo_height()
-            m_x = master.winfo_rootx()
-            m_y = master.winfo_rooty()
+        if main.winfo_ismapped():
+            m_width = main.winfo_width()
+            m_height = main.winfo_height()
+            m_x = main.winfo_rootx()
+            m_y = main.winfo_rooty()
         else:
-            m_width = master.winfo_screenwidth()
-            m_height = master.winfo_screenheight()
+            m_width = main.winfo_screenwidth()
+            m_height = main.winfo_screenheight()
             m_x = m_y = 0
         w_width = widget.winfo_reqwidth()
         w_height = widget.winfo_reqheight()
         x = m_x + (m_width - w_width) * relx
         y = m_y + (m_height - w_height) * rely
-        if x+w_width > master.winfo_screenwidth():
-            x = master.winfo_screenwidth() - w_width
+        if x+w_width > main.winfo_screenwidth():
+            x = main.winfo_screenwidth() - w_width
         elif x < 0:
             x = 0
-        if y+w_height > master.winfo_screenheight():
-            y = master.winfo_screenheight() - w_height
+        if y+w_height > main.winfo_screenheight():
+            y = main.winfo_screenheight() - w_height
         elif y < 0:
             y = 0
 
